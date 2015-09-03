@@ -1,6 +1,7 @@
 {
   "id": "com.knowledge.wikipedia",
   "version": "1.2.2",
+  "compatibility": "0.x || 1.x",
   "name": {
     "en": "Wikipedia",
     "nl": "Wikipedia"
@@ -29,17 +30,9 @@
     {
       "id": "wikipedia",
       "importance": 1,
-      "synonyms": {
+      "triggers": {
         "en": [
-          "wikipedia"
-        ]
-      }
-    },
-    {
-      "id": "wiki",
-      "importance": 1,
-      "synonyms": {
-        "en": [
+          "wikipedia",
           "wiki"
         ]
       }
@@ -47,7 +40,7 @@
     {
       "id": "question",
       "importance": 0.5,
-      "synonyms": {
+      "triggers": {
         "en": [
           "question"
         ]

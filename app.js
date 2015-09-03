@@ -1,22 +1,15 @@
 "use strict";
 
-function App() 
-{
-    this.cache = {};
-    this.woeid = undefined;
-}
+var self = module.exports;
 
-module.exports = App;
-var app = new App();
-
-App.prototype.init = function(){
+module.exports.init = function(){
     Homey.log ("Wikipedia app started");
 
     //Listen for speech triggers
-    Homey.manager('speech-input').on('speech', onSpeech)
-};
+    Homey.manager('speech-input').on('speech', self.onSpeech)
+}
 
-App.prototype.requestWiki = function ( spoken_text ) {
+module.exports.requestWiki = function ( spoken_text ) {
   var request = require('request');
   var extract;
 
@@ -27,11 +20,11 @@ App.prototype.requestWiki = function ( spoken_text ) {
             Homey.log("id: " + id); //What is the id?
             if (id == -1) {
               //No result found
-              app.speakOutput("Homey coudn't find any information about " + spoken_text);
+              self.speakOutput("Homey coudn't find any information about " + spoken_text);
             } else {
               extract = body.query.pages[id].extract; //What is the extract within that id?
 
-              app.speakOutput(extract); //Speak result
+              self.speakOutput(extract); //Speak result
             }
           }
       }
@@ -39,7 +32,7 @@ App.prototype.requestWiki = function ( spoken_text ) {
 }
 
 //Listen for speech
-function onSpeech(speech) {
+module.exports.onSpeech = function(speech) {
     Homey.log("Speech is triggered");
 
     var spoken_text;
@@ -63,17 +56,17 @@ function onSpeech(speech) {
     });
 
     Homey.log ("spoken_text: " + spoken_text);
-    app.requestWiki(spoken_text);
+    self.requestWiki(spoken_text);
 }
 
-App.prototype.speakOutput = function( output ){
+module.exports.speakOutput = function( output ){
     Homey.log("speakOutput");
     Homey.log(output);
 
     //Homey.manager('speech-output').say( __(output );
 }
 
-App.prototype.askOutput = function( output ){
+module.exports.askOutput = function( output ){
     Homey.log("askOutput");
     Homey.log(output);
 
