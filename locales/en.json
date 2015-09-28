@@ -1,0 +1,10 @@
+{	
+	"api_link": "https://en.wikipedia.org/w/api.php",
+	"no_info": "Homey coudn't find any information about ",
+	"try_again": " Please try again by telling me what the title is of the Wikipedia page which you are looking for",
+	"more": "... Do you want to hear more about __wiki_title__?",
+	"yes_no": "Please anwser the question with yes or no",
+	"yes": "yes",
+	"no": "no",
+	"ok": "ok"
+}

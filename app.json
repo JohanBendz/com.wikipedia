@@ -2,18 +2,23 @@
   "id": "com.knowledge.wikipedia",
   "version": "1.2.2",
   "compatibility": "0.x || 1.x",
+  "category": "internet",
   "name": {
     "en": "Wikipedia",
     "nl": "Wikipedia"
   },
   "description": {
-    "en": "This is the Wikipedia app.",
-    "nl": "Dit is de Wikipedia aplicatie"
+    "en": "Ask questions to Wikipedia",
+    "nl": "Stel vragen aan Wikipedia"
   },
   "author": {
     "name": "Freek Boelders",
     "email": "freek@athom.nl",
     "website": "http://freekboelders.nl/"
+  },
+  "images": {
+    "large": "./assets/images/large.jpg",
+    "small": "./assets/images/small.jpg"
   },
   "dependencies": {
   },
@@ -34,15 +39,6 @@
         "en": [
           "wikipedia",
           "wiki"
-        ]
-      }
-    },
-    {
-      "id": "question",
-      "importance": 0.5,
-      "triggers": {
-        "en": [
-          "question"
         ]
       }
     }

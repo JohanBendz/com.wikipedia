@@ -1,0 +1,10 @@
+{
+	"api_link": "https://nl.wikipedia.org/w/api.php",
+	"no_info": "Homey kon geen informatie vinden over ",
+	"try_again": " Probeer het opnieuw, door mij te vertellen wat de titel is van de Wikipedia pagina die je zoekt ",
+	"more": "... Wil je nog meer weten over __wiki_title__?",
+	"yes_no": "Beantwoord alsjeblieft de vraag met ja of nee",
+	"yes": "ja",
+	"no": "nee",
+	"ok": "okee"
+}
