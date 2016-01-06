@@ -1,6 +1,6 @@
 {
   "id": "com.wikipedia",
-  "version": "1.2.2",
+  "version": "1.2.3",
   "compatibility": "0.x || 1.x",
   "category": "internet",
   "name": {
@@ -12,9 +12,7 @@
     "nl": "Stel vragen aan Wikipedia"
   },
   "author": {
-    "name": "Freek Boelders",
-    "email": "freek@athom.nl",
-    "website": "http://freekboelders.nl/"
+    "name": "Athom B.V."
   },
   "images": {
     "large": "./assets/images/large.jpg",
