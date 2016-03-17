@@ -12,7 +12,7 @@ module.exports.init = function(){
 
 module.exports.requestWikiSearch = function ( spoken_text ) {
     request({url:__("api_link") + '?action=query&list=search&format=json&srsearch=' + spoken_text, json:true}, function (error, response, body) {
-      if (!error && response.statusCode == 200) {
+      if (!error && response.statusCode == 200 && body.query) {
         if (body.query.searchinfo.totalhits == 0) {
           self.askOutput(__("no_info") + spoken_text + __("try_again")); //No information about your search query
         } else {
@@ -62,11 +62,16 @@ module.exports.onSpeech = function(speech) {
 
         Homey.log ("speech.transcript: " + speech.transcript);
 
-        speechInput = speech.transcript; //Replace Wolfram (trigger) with nothing = speech.transcript.replace("wikipedia", ""); //Replace Wolfram (trigger) with nothing
-
-        speechInput = speechInput.replace("wikipedia", ""); //Replace Wolfram (trigger) with nothing
-        speechInput = speechInput.replace("wiki", ""); //Replace wiki (trigger) with nothing
-        speechInput = speechInput.replace("question", ""); //Replace question (trigger) with nothing
+        //Replace Wolfram (trigger) with nothing
+        speechInput = speech.transcript;
+        speechInput = speechInput.replace("wikipedia", "");
+        speechInput = speechInput.replace("wiki", "");
+        speechInput = speechInput.replace("every thing yeah", "");
+        speechInput = speechInput.replace("when will the media", "");
+        speechInput = speechInput.replace("bring it up here", "");
+        speechInput = speechInput.replace("what yeah", "");
+        speechInput = speechInput.replace("we will see", "");
+        
         speechInput = toTitleCase(speechInput);
 
         function toTitleCase(str){
