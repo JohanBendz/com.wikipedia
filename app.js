@@ -62,7 +62,7 @@ module.exports.onSpeech = function(speech) {
 
         Homey.log ("speech.transcript: " + speech.transcript);
 
-        //Replace Wolfram (trigger) with nothing
+        //Replace Wikipedia (trigger) with nothing
         speechInput = speech.transcript;
         speechInput = speechInput.replace("wikipedia", "");
         speechInput = speechInput.replace("wiki", "");
