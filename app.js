@@ -70,7 +70,6 @@ module.exports.onSpeech = function(speech) {
         speechInput = speechInput.replace("when will the media", "");
         speechInput = speechInput.replace("bring it up here", "");
         speechInput = speechInput.replace("what yeah", "");
-        speechInput = speechInput.replace("we will see", "");
         
         speechInput = toTitleCase(speechInput);
 
