@@ -1,6 +1,6 @@
 {
   "id": "com.wikipedia",
-  "version": "1.2.4",
+  "version": "2.0.0",
   "compatibility": "0.x || 1.x",
   "category": "internet",
   "name": {
@@ -8,8 +8,8 @@
     "nl": "Wikipedia"
   },
   "description": {
-    "en": "Ask questions to Wikipedia",
-    "nl": "Stel vragen aan Wikipedia"
+    "en": "Ask Homey to get you infromation from Wikipedia",
+    "nl": "Vraag informatie op van Wikipedia"
   },
   "author": {
     "name": "Athom B.V."
@@ -22,7 +22,6 @@
   },
   "permissions": [
     "homey:manager:speech-output",
-    "homey:manager:media",
     "homey:manager:speech-input"
   ],
   "flow": {
@@ -35,6 +34,13 @@
       "importance": 1,
       "triggers": {
         "en": [
+          "on wikipedia",
+          "wikipedia",
+          "wiki"
+        ],
+        "nl": [
+          "op wikipedia naar",
+          "op wikipedia",
           "wikipedia",
           "wiki"
         ]
@@ -48,7 +54,34 @@
           "every thing yeah",
           "when will the media",
           "bring it up here",
-          "what yeah"
+          "what yeah",
+          "information about"
+        ],
+        "nl": [
+          "informatie over",
+          "vertel me over",
+          "vertel me iets over",
+          "vertel iets over",
+          "wat weet je over",
+          "wat weet je van"
+        ]
+      }
+    },
+    {
+      "id": "support_word",
+      "importance": false,
+      "triggers": {
+        "en": [
+          "look up",
+          "lookup",
+          "find",
+          "search for",
+          "search"
+        ],
+        "nl": [
+          "zoek",
+          "zoek naar",
+          "vind"
         ]
       }
     }
