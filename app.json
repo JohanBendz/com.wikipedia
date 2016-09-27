@@ -1,7 +1,7 @@
 {
   "id": "com.wikipedia",
   "version": "2.0.0",
-  "compatibility": "0.x || 1.x",
+  "compatibility": ">=0.8.30",
   "category": "internet",
   "name": {
     "en": "Wikipedia",

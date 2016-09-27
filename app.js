@@ -1,10 +1,8 @@
 "use strict";
 
 var request = require('request');
-const apiUrl = "https://en.wikipedia.org/w/api.php";
 
 module.exports.init = function(){
-
 	Homey.manager('speech-input').on('speech', onSpeech);
 }
 
@@ -78,7 +76,7 @@ function requestWikiPage(pageTitle, callback) {
 	}, function (error, response, body) {
 		if (!error && response.statusCode == 200) {
 
-			for (var id in body.query.pages) {
+			for (const id in body.query.pages) {
 				if (id === -1) return callback(null, ""); //if there were no pages
 
 				//remove annoying characters from extract and plit into sentences
