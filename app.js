@@ -5,41 +5,17 @@ var request = require('request');
 module.exports.init = function(){
 	Homey.manager('speech-input').on('speech', onSpeech);
 }
+function onSpeech( speech, callback ) {
+	console.log("WIKI")
+	return callback( true );
+}
+function onSpeechMatch( speech, word ) {
+	const tree = speech.matches.main;
+	console.log(speech)
+	console.log(word)
 
-function onSpeech(speech) {
-	var userInput = {};
-	//process triggers
-	speech.triggers.forEach(function(trigger){
-		if (trigger.id === 'wikipedia' || trigger.id === 'wikipedia_alternative') {
-			userInput.mainTrigger = trigger;
-		}else if (trigger.id === 'support_word') {
-			userInput.support = trigger;
-		}
-	})
-
-	if (!userInput.mainTrigger) return;
-
-	//get search
-	var searchWords = "";
-	if (userInput.support) {
-		if (userInput.support.position + userInput.support.text.length + 1 === userInput.mainTrigger.position) {
-			//zoek op wikipedia naar
-			searchWords = speech.transcript.slice(userInput.mainTrigger.position + userInput.mainTrigger.text.length).trim();
-		}else{
-			//search for X on wikipedia
-			searchWords = speech.transcript.substring(userInput.support.position + userInput.support.text.length, userInput.mainTrigger.position).trim();
-		}
-	}else{
-		//wikipedia X
-		searchWords = speech.transcript.slice(userInput.mainTrigger.position + userInput.mainTrigger.text.length).trim();
-	}
-
-	if (searchWords === "")  {
-		speech.say( __("noSearchQuery") );
-		return;
-	}
-
-	getFromWikipedia(searchWords, function(err, result){
+// console.log(tree.chunks)
+	getFromWikipedia(Object.keys(tree.chunks)[0], function(err, result){
 		if (err) return speech.say( __("retrieveError"));
 		if (result === "") return speech.say( __("noResult", {searchWords: searchWords}) );
 
