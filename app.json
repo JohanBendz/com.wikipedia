@@ -46,13 +46,10 @@
       },
       "group": {
         "main": {
-          "set": "(verb) && query",
+          "set": "(verb) && wikipedia && query",
           "ordered": false,
           "allowDisconnect": true,
           "capturingGroup": true
-        },
-        "chunks": {
-          "set": "VP || NP"
         }
       }
     }

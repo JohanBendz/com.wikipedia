@@ -4,6 +4,7 @@ var request = require('request');
 
 module.exports.init = function(){
 	Homey.manager('speech-input').on('speech', onSpeech);
+	Homey.manager('speech-input').on('speechMatch', onSpeechMatch);
 }
 function onSpeech( speech, callback ) {
 	console.log("WIKI")
@@ -14,8 +15,7 @@ function onSpeechMatch( speech, word ) {
 	console.log(speech)
 	console.log(word)
 
-// console.log(tree.chunks)
-	getFromWikipedia(Object.keys(tree.chunks)[0], function(err, result){
+	getFromWikipedia(tree.query[0], function(err, result){
 		if (err) return speech.say( __("retrieveError"));
 		if (result === "") return speech.say( __("noResult", {searchWords: searchWords}) );
 
