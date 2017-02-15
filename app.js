@@ -7,17 +7,14 @@ module.exports.init = function(){
 	Homey.manager('speech-input').on('speechMatch', onSpeechMatch);
 }
 function onSpeech( speech, callback ) {
-	console.log("WIKI")
 	return callback( true );
 }
 function onSpeechMatch( speech, word ) {
 	const tree = speech.matches.main;
-	console.log(speech)
-	console.log(word)
 
-	getFromWikipedia(tree.query[0], function(err, result){
+	getFromWikipedia(tree.query.value[0], function(err, result){
 		if (err) return speech.say( __("retrieveError"));
-		if (result === "") return speech.say( __("noResult", {searchWords: searchWords}) );
+		if (result === "") return speech.say( __("noResult", {searchWords: tree.query.value[0]}) );
 
 		return speech.say(result);
 	})
@@ -56,7 +53,8 @@ function requestWikiPage(pageTitle, callback) {
 				if (id === -1) return callback(null, ""); //if there were no pages
 
 				//remove annoying characters from extract and plit into sentences
-				var sentences = body.query.pages[id].extract.replace(/[\(\(\[\]]/, " ").split(".");
+				var sentences = body.query.pages[id].extract.replace(/[\(\(\[\]]/, " ").split(/[.,]/);
+
 				var response = "";
 				var i = 0;
 				while (sentences[i] && response.length + sentences[i].length < 255) {
