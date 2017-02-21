@@ -70,10 +70,8 @@
       }
     }
   },
-  "speechExamples": [
-    {
-        "en": "Wikipedia personal assistent",
-        "nl": "Wikipedia Encyclopedie"
-    }
-  ]
+  "speechExamples": {
+    "en": [ "Wikipedia personal assistent" ],
+    "nl": [ "Wikipedia Encyclopedie" ]
+  }
 }
