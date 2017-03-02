@@ -7,7 +7,7 @@ module.exports.init = function(){
 	Homey.manager('speech-input').on('speechMatch', onSpeechMatch);
 }
 function onSpeech( speech, callback ) {
-	return callback( true );
+	return callback( null, true );
 }
 function onSpeechMatch( speech, word ) {
 	const tree = speech.matches.main;
@@ -58,7 +58,7 @@ function requestWikiPage(pageTitle, callback) {
 				var response = "";
 				var i = 0;
 				while (sentences[i] && response.length + sentences[i].length < 255) {
-					response += sentences[i];
+					response += sentences[i] + ".";
 					i++;
 				}
 				return callback(null, response);
