@@ -1,7 +1,7 @@
 {
   "id": "com.wikipedia",
-  "version": "2.0.0",
-  "compatibility": ">=0.8.30",
+  "version": "2.1.1",
+  "compatibility": ">=1.2.0",
   "category": "internet",
   "name": {
     "en": "Wikipedia",
@@ -28,62 +28,50 @@
     "triggers": [],
     "conditions": []
   },
-  "speech": [
-    {
-      "id": "wikipedia",
-      "importance": 1,
-      "triggers": {
-        "en": [
-          "on wikipedia",
-          "wikipedia",
-          "wiki"
-        ],
-        "nl": [
-          "op wikipedia naar",
-          "op wikipedia",
-          "wikipedia",
-          "wiki"
-        ]
+  "speech": {   
+    "en": {
+      "element": {
+        "verb": {
+          "type": "regex",
+          "value": "(look\\s?up|find|search(\\sfor)?|tell(\\sme|\\sus)?\\sabout)"
+        },
+        "wikipedia": {
+          "type": "regex",
+          "value": "((on\\s)?wikipedia|wiki)"
+        },
+        "query": {
+          "type": "regex",
+          "value": "[\\s\\S]+"
+        }
+      },
+      "group": {
+        "main": {
+          "set": "(verb) && wikipedia && query",
+          "ordered": false,
+          "allowDisconnect": true,
+          "capturingGroup": true
+        }
       }
-    },
-    {
-      "id": "wikipedia_alternative",
-      "importance": 0.5,
-      "triggers": {
-        "en": [
-          "every thing yeah",
-          "when will the media",
-          "bring it up here",
-          "what yeah",
-          "information about"
-        ],
-        "nl": [
-          "informatie over",
-          "vertel me over",
-          "vertel me iets over",
-          "vertel iets over",
-          "wat weet je over",
-          "wat weet je van"
-        ]
-      }
-    },
-    {
-      "id": "support_word",
-      "importance": false,
-      "triggers": {
-        "en": [
-          "look up",
-          "lookup",
-          "find",
-          "search for",
-          "search"
-        ],
-        "nl": [
-          "zoek",
-          "zoek naar",
-          "vind"
-        ]
+    },  
+    "nl": {
+      "element": {
+        "verb": {
+          "type": "regex",
+          "value": "(vind|zoek(\\snaar)?)(\\sinformatie(\\sover)?)?"
+        },
+        "wikipedia": {
+          "type": "regex",
+          "value": "((op\\s)?wikipedia|wiki)"
+        },
+        "query": {
+          "type": "regex",
+          "value": "[\\s\\S]+"
+        }
       }
     }
-  ]
+  },
+  "speechExamples": {
+    "en": [ "Wikipedia personal assistent" ],
+    "nl": [ "Wikipedia Encyclopedie" ]
+  }
 }

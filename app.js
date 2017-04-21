@@ -4,44 +4,17 @@ var request = require('request');
 
 module.exports.init = function(){
 	Homey.manager('speech-input').on('speech', onSpeech);
+	Homey.manager('speech-input').on('speechMatch', onSpeechMatch);
 }
+function onSpeech( speech, callback ) {
+	return callback( null, true );
+}
+function onSpeechMatch( speech, word ) {
+	const tree = speech.matches.main;
 
-function onSpeech(speech) {
-	var userInput = {};
-	//process triggers
-	speech.triggers.forEach(function(trigger){
-		if (trigger.id === 'wikipedia' || trigger.id === 'wikipedia_alternative') {
-			userInput.mainTrigger = trigger;
-		}else if (trigger.id === 'support_word') {
-			userInput.support = trigger;
-		}
-	})
-
-	if (!userInput.mainTrigger) return;
-
-	//get search
-	var searchWords = "";
-	if (userInput.support) {
-		if (userInput.support.position + userInput.support.text.length + 1 === userInput.mainTrigger.position) {
-			//zoek op wikipedia naar
-			searchWords = speech.transcript.slice(userInput.mainTrigger.position + userInput.mainTrigger.text.length).trim();
-		}else{
-			//search for X on wikipedia
-			searchWords = speech.transcript.substring(userInput.support.position + userInput.support.text.length, userInput.mainTrigger.position).trim();
-		}
-	}else{
-		//wikipedia X
-		searchWords = speech.transcript.slice(userInput.mainTrigger.position + userInput.mainTrigger.text.length).trim();
-	}
-
-	if (searchWords === "")  {
-		speech.say( __("noSearchQuery") );
-		return;
-	}
-
-	getFromWikipedia(searchWords, function(err, result){
+	getFromWikipedia(tree.query.value[0], function(err, result){
 		if (err) return speech.say( __("retrieveError"));
-		if (result === "") return speech.say( __("noResult", {searchWords: searchWords}) );
+		if (result === "") return speech.say( __("noResult", {searchWords: tree.query.value[0]}) );
 
 		return speech.say(result);
 	})
@@ -80,11 +53,12 @@ function requestWikiPage(pageTitle, callback) {
 				if (id === -1) return callback(null, ""); //if there were no pages
 
 				//remove annoying characters from extract and plit into sentences
-				var sentences = body.query.pages[id].extract.replace(/[\(\(\[\]]/, " ").split(".");
+				var sentences = body.query.pages[id].extract.replace(/[\(\(\[\]]/, " ").split(/[.,]/);
+
 				var response = "";
 				var i = 0;
 				while (sentences[i] && response.length + sentences[i].length < 255) {
-					response += sentences[i];
+					response += sentences[i] + ".";
 					i++;
 				}
 				return callback(null, response);
