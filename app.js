@@ -1,68 +1,67 @@
-"use strict";
+'use strict';
 
-var request = require('request');
+const fetch = require('node-fetch');
+const Homey = require('homey');
 
-module.exports.init = function(){
-	Homey.manager('speech-input').on('speech', onSpeech);
-	Homey.manager('speech-input').on('speechMatch', onSpeechMatch);
+module.exports = class WikipediaApp extends Homey.App {
+	
+	onInit() {
+		this._language = Homey.ManagerI18n.getLanguage();
+		this._apiUrl = `https://${this._language}.wikipedia.org//w/api.php`;
+				
+		Homey.ManagerSpeechInput.on('speechEval', this._onSpeechEval.bind(this))
+		Homey.ManagerSpeechInput.on('speechMatch', this._onSpeechMatch.bind(this))
+	}
+	
+	_onSpeechEval( speech, callback ) {
+		callback( null, true );
+	}
+	
+	_onSpeechMatch( speech ) {
+		const { matches } = speech;
+		const { main } = matches;
+		const { query } = main;
+		const { value } = query;
+		
+		this.getFromWikipedia({ query: value })
+			.catch(err => {
+				const message = err.message || err.toString();
+				
+				if( message === 'no_result' )
+					return Homey.__('noResult', {
+						query: value,
+					});
+				
+				return Homey.__('error', { message });
+			})
+			.then(text => speech.say(text))
+			.catch(this.error);
+	}
+	
+	async getFromWikipedia({ query, sentences = 1 }) {
+		const url = `${this._apiUrl}?format=json&action=query&prop=extracts&exintro&explaintext&redirects=1&titles=${encodeURIComponent(query)}`;
+		const res = await fetch(url);
+		const body = await res.json();
+		const { pages } = body.query;
+		if(Object.keys(pages) < 1)
+			throw new Error('no_result');
+		
+		const page = Object.values(pages)[0];
+		const { extract } = page;
+		
+		// split in sentences and limit by number of sentences
+		let text = extract.split('. ', sentences).join('. ') + '.';
+			text = removeParenthesis(text);
+		return text;
+	}
+	
 }
-function onSpeech( speech, callback ) {
-	return callback( null, true );
-}
-function onSpeechMatch( speech, word ) {
-	const tree = speech.matches.main;
 
-	getFromWikipedia(tree.query.value[0], function(err, result){
-		if (err) return speech.say( __("retrieveError"));
-		if (result === "") return speech.say( __("noResult", {searchWords: tree.query.value[0]}) );
-
-		return speech.say(result);
-	})
-}
-
-function getFromWikipedia(searchWords, callback) {
-	request({
-		url: __("apiUrl") + '?action=query&list=search&format=json&srsearch=' + searchWords, 
-		json:true
-	}, function (error, response, body) {
-		if (error) return callback(error);
-
-		if (response.statusCode == 200 && body.query) {
-			if (body.query.searchinfo.totalhits == 0) return callback(null, "");
-
-			//Use the title of the first result to request that page
-			requestWikiPage(body.query.search[0].title, function(err, result){
-				if (err) return callback(err);
-
-				callback(null, result);
-			}); 
-		}else{
-			callback(new Error("Something went wrong while searching"));
-		}
-	})
-}
-
-function requestWikiPage(pageTitle, callback) {
-	request({
-		url:__("apiUrl") + '?format=json&action=query&prop=extracts&exintro=&explaintext=&redirects=&titles=' + pageTitle, 
-		json:true
-	}, function (error, response, body) {
-		if (!error && response.statusCode == 200) {
-
-			for (const id in body.query.pages) {
-				if (id === -1) return callback(null, ""); //if there were no pages
-
-				//remove annoying characters from extract and plit into sentences
-				var sentences = body.query.pages[id].extract.replace(/[\(\(\[\]]/, " ").split(/[.,]/);
-
-				var response = "";
-				var i = 0;
-				while (sentences[i] && response.length + sentences[i].length < 255) {
-					response += sentences[i] + ".";
-					i++;
-				}
-				return callback(null, response);
-			}
-		}
-	})
+function removeParenthesis(str) {
+	let re = /\([^\(\)]+\)/gi;
+	while( str.match(re) ) {
+		str = str.replace(re, '');
+	}	
+	return str;
+	
 }

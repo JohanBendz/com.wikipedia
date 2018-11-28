@@ -1,7 +1,8 @@
 {
   "id": "com.wikipedia",
-  "version": "2.1.1",
-  "compatibility": ">=1.2.0",
+  "version": "3.0.0",
+  "sdk": 2,
+  "compatibility": ">=1.5.0",
   "category": "internet",
   "name": {
     "en": "Wikipedia",
@@ -12,13 +13,12 @@
     "nl": "Vraag informatie op van Wikipedia"
   },
   "author": {
-    "name": "Athom B.V."
+    "name": "Athom B.V.",
+    "email": "support@athom.com"
   },
   "images": {
     "large": "./assets/images/large.jpg",
     "small": "./assets/images/small.jpg"
-  },
-  "dependencies": {
   },
   "permissions": [
     "homey:manager:speech-output",
@@ -71,7 +71,7 @@
     }
   },
   "speechExamples": {
-    "en": [ "Wikipedia personal assistent" ],
-    "nl": [ "Wikipedia Encyclopedie" ]
+    "en": [ "Ask Wikipedia who Obama is." ],
+    "nl": [ "Vraag Wikipedia wie Obama is." ]
   }
 }

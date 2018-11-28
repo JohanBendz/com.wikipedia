@@ -1,6 +1,4 @@
 {	
-	"apiUrl": "https://en.wikipedia.org/w/api.php",
-	"noSearchQuery": "Sorry, I did not understand which subject you would like to wikipedia information about",
-	"retrieveError": "I could not get information from wikipedia. Please try again later",
-	"noResult": " Sorry, I could not find __searchWords__ on wikipedia"
+	"error": "Something went wrong searching Wikipedia [__error__].",
+	"noResult": " Sorry, I could not find anything about `__query__` on Wikipedia."
 }

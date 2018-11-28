@@ -1,6 +1,4 @@
-{
-	"apiUrl": "https://nl.wikipedia.org/w/api.php",
-	"noSearchQuery": "Sorry, ik begreep niet over welk onderwerp ik informatie van wikipedia moet zoeken",
-	"retrieveError": "Het is niet gelukt om informatie van wikipedia op te vragen. Probeer het later opnieuw",
-	"noResult": " Sorry, er waren geen resultaten voor __searchWords__ op wikipedia"
+{	
+	"error": "Er ging iets fout bij het zoeken op Wikipedia [__error__].",
+	"noResult": " Sorry, ik kon niks vinden over `__query__` op Wikipedia."
 }
